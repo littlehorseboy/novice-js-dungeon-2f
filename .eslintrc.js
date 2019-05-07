@@ -7,21 +7,11 @@ module.exports = {
   env: {
     browser: true,
     es6: true,
+    jest: true,
   },
   extends: [
     'airbnb-base',
   ],
-  globals: {
-    jest: 'readonly',
-    it: 'readonly',
-    test: 'readonly',
-    expect: 'readonly',
-    beforeEach: 'readonly',
-    afterEach: 'readonly',
-    beforeAll: 'readonly',
-    afterAll: 'readonly',
-    describe: 'readonly',
-  },
   rules: {
     'linebreak-style': [
       'error',
