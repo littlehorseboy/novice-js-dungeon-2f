@@ -17,21 +17,23 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    position: 'relative',
   },
   hourHand: {
     position: 'absolute',
-    transform: 'translate(-50%, -50%)',
-    transformOrigin: 'right',
+    left: '36.2%',
+    top: '48.6%',
+    transformOrigin: '95.7% 50%',
   },
   minuteHand: {
     position: 'absolute',
-    transform: 'translate(0, -50%)',
-    transformOrigin: 'bottom',
+    top: '30.93%',
+    transformOrigin: '50% 96%',
   },
   secondHand: {
     position: 'absolute',
-    transform: 'translate(0, -50%)',
-    transformOrigin: 'bottom',
+    top: '49.4%',
+    transformOrigin: 'top',
   },
 };
 
@@ -39,39 +41,45 @@ const { classes } = jss.createStyleSheet(styles).attach();
 
 const now = new Date();
 const hour = now.getHours();
+const minute = now.getMinutes();
+const second = now.getSeconds();
 
 const secondHand = document.createElement('img');
 secondHand.src = secondHandSvg;
 secondHand.classList.add(classes.secondHand);
 
-let secondCurrentDeg = 0;
-const secondDegStep = 360 / 24;
-setInterval(() => {
-  secondCurrentDeg += secondDegStep;
-  secondHand.style.transform = `translate(0, -50%) rotate(${secondCurrentDeg}deg)`;
-}, 50);
-
 const minuteHand = document.createElement('img');
 minuteHand.src = minuteHandSvg;
 minuteHand.classList.add(classes.minuteHand);
-
-let minuteCurrentDeg = 0;
-const minuteDegStep = 360 / 24;
-setInterval(() => {
-  minuteCurrentDeg += minuteDegStep;
-  minuteHand.style.transform = `translate(0, -50%) rotate(${minuteCurrentDeg}deg)`;
-}, 1000);
 
 const hourHand = document.createElement('img');
 hourHand.src = hourHandSvg;
 hourHand.classList.add(classes.hourHand);
 
-let hourCurrentDeg = 0;
+let secondCurrentDeg = 180;
+const secondDegStep = 360 / 60;
+secondCurrentDeg += secondDegStep * second;
+secondHand.style.transform = `rotate(${secondCurrentDeg}deg)`;
+setInterval(() => {
+  secondCurrentDeg += secondDegStep;
+  secondHand.style.transform = `rotate(${secondCurrentDeg}deg)`;
+}, 1000);
+
+let minuteCurrentDeg = 0;
+const minuteDegStep = 360 / 60;
+minuteHand.style.transform = `rotate(${minuteCurrentDeg + minuteDegStep * minute}deg)`;
+setInterval(() => {
+  minuteCurrentDeg += minuteDegStep;
+  minuteHand.style.transform = `rotate(${minuteCurrentDeg}deg)`;
+}, 1000 * 60);
+
+let hourCurrentDeg = 90;
 const hourDegStep = 360 / 24;
+hourHand.style.transform = `rotate(${hourCurrentDeg + hourDegStep * hour}deg)`;
 setInterval(() => {
   hourCurrentDeg += hourDegStep;
-  hourHand.style.transform = `translate(-50%, -50%) rotate(${hourCurrentDeg}deg)`;
-}, 1000);
+  hourHand.style.transform = `rotate(${hourCurrentDeg}deg)`;
+}, 1000 * 60 * 60);
 
 const clockBg = document.createElement('div');
 clockBg.classList.add(classes.clockBg);
