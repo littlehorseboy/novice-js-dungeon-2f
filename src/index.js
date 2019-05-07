@@ -60,26 +60,31 @@ let secondCurrentDeg = 180;
 const secondDegStep = 360 / 60;
 secondCurrentDeg += secondDegStep * second;
 secondHand.style.transform = `rotate(${secondCurrentDeg}deg)`;
-setInterval(() => {
-  secondCurrentDeg += secondDegStep;
-  secondHand.style.transform = `rotate(${secondCurrentDeg}deg)`;
-}, 1000);
 
 let minuteCurrentDeg = 0;
 const minuteDegStep = 360 / 60;
-minuteHand.style.transform = `rotate(${minuteCurrentDeg + minuteDegStep * minute}deg)`;
-setInterval(() => {
-  minuteCurrentDeg += minuteDegStep;
-  minuteHand.style.transform = `rotate(${minuteCurrentDeg}deg)`;
-}, 1000 * 60);
+minuteCurrentDeg += minuteDegStep * minute;
+minuteHand.style.transform = `rotate(${minuteCurrentDeg}deg)`;
 
 let hourCurrentDeg = 90;
-const hourDegStep = 360 / 24;
-hourHand.style.transform = `rotate(${hourCurrentDeg + hourDegStep * hour}deg)`;
+const hourDegStep = 360 / 12;
+hourCurrentDeg += hourDegStep * hour;
+hourHand.style.transform = `rotate(${hourCurrentDeg}deg)`;
+
 setInterval(() => {
-  hourCurrentDeg += hourDegStep;
-  hourHand.style.transform = `rotate(${hourCurrentDeg}deg)`;
-}, 1000 * 60 * 60);
+  secondCurrentDeg += secondDegStep;
+  secondHand.style.transform = `rotate(${secondCurrentDeg}deg)`;
+
+  if ((secondCurrentDeg - 180) % 360 === 0) {
+    minuteCurrentDeg += minuteDegStep;
+    minuteHand.style.transform = `rotate(${minuteCurrentDeg}deg)`;
+  }
+
+  if ((minuteCurrentDeg) % 360 === 0) {
+    hourCurrentDeg += hourDegStep;
+    hourHand.style.transform = `rotate(${hourCurrentDeg}deg)`;
+  }
+}, 1000);
 
 const clockBg = document.createElement('div');
 clockBg.classList.add(classes.clockBg);
