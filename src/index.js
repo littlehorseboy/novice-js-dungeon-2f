@@ -80,7 +80,8 @@ setInterval(() => {
     minuteHand.style.transform = `rotate(${minuteCurrentDeg}deg)`;
   }
 
-  if ((minuteCurrentDeg) % 360 === 0) {
+  if (minuteCurrentDeg === 360) {
+    minuteCurrentDeg = 0;
     hourCurrentDeg += hourDegStep;
     hourHand.style.transform = `rotate(${hourCurrentDeg}deg)`;
   }
