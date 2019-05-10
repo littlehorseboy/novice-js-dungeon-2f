@@ -39,6 +39,7 @@ const styles = {
 
 const { classes } = jss.createStyleSheet(styles).attach();
 
+// 取得目前時間
 const now = new Date();
 const hour = now.getHours();
 const minute = now.getMinutes();
@@ -56,6 +57,9 @@ const hourHand = document.createElement('img');
 hourHand.src = hourHandSvg;
 hourHand.classList.add(classes.hourHand);
 
+// 秒針 分針 時針
+// 設定目前旋轉角度，每次旋轉的角度
+// 依照目前時間改變初始呈現的角度
 let secondCurrentDeg = 180;
 const secondDegStep = 360 / 60;
 secondCurrentDeg += secondDegStep * second;
@@ -71,6 +75,9 @@ const hourDegStep = 360 / 12;
 hourCurrentDeg += hourDegStep * hour;
 hourHand.style.transform = `rotate(${hourCurrentDeg}deg)`;
 
+// 每秒累加秒針角度，並判斷以下情形
+// 秒針指到 12 點，分針 +
+// 分針指到 12 點，時針 +，並將分針目前角度歸 0，否則指到 12 點時每秒都 === 360
 setInterval(() => {
   secondCurrentDeg += secondDegStep;
   secondHand.style.transform = `rotate(${secondCurrentDeg}deg)`;
